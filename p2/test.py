@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# 
 import ast, os, sys, subprocess, json, re, collections, math, warnings
 
 # check the python version
