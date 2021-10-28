@@ -3,6 +3,9 @@
 ## Corrections/ Clarifications
 
  * **(10/20/2021 - 10:30am)**: Q17 and Q18 reworded. References to 'single dose' replaced with the term 'partly vaccinated'.
+ * **(10/23/2021 - 5:00pm)**: Added clarifying note for Q18.
+ * **(10/24/2021 - 4:15pm)**: Reworded suggestions for how to solve Q12
+ * **(10/25/2021 - 3:10pm)**: Rewrote sample code for Q5 and Q10 to clarify, added hints to Q6
 
 **Find any issues?** Report to us, 
 
@@ -141,16 +144,22 @@ We will now create a function `daily_vaccinations_on` to deal with the missing d
 Note that this function is a **requirement**, and you will **lose points** if you do not implement this function.
 
 ```python
-def daily_vaccinations_on(date):
-    '''return a dictionary mapping each country to the number of daily vaccinations on the given date; if data is missing, the value for that country is None'''
+def daily_vaccinations_on(given_date):
+    '''return a dictionary mapping each country to 
+    the number of daily vaccinations on the given date; 
+    if data is missing, the value for that country is None'''
     daily_vax_dict = ???
     for i in range(???):
-        country_i = ???
-        date_i = ???
-        daily_vax_i = ???
-        if ???: # TODO: check if date_i is the correct date 
-            # TODO: map the country to the number of daily vaccinations on that day
-    return ???
+        date = ???
+	# if date equals given_date
+	    country =  ???
+            daily_vax =  ???
+	    # print(date, country, daily_vax)  # use this for debugging
+            # if daily_vax is the empty string: 
+	        # see docstring above
+	    # else:
+	        # convert to an int and add this value to the dictionary
+    return ??? 
 ```
 
 ### #Q5: How many vaccinations are estimated to have been done for each country  on '10/13/2021'?
@@ -158,9 +167,14 @@ def daily_vaccinations_on(date):
 **Note:** Your answer should be a **dict** mapping each country to the number of vaccinations done on that date in the country. If no data is available for a country on that date, the value should be `None`.
 
 
-### #Q6: How many vaccinations are estimated to have been done for each country across the dates mentioned in the dataset?
+### #Q6: How many vaccinations are estimated to have been done for each country?
 
-**Note:** Your answer should be a **dict** mapping each country to the number of vaccinations done that week in that country. If we have data from that country for only a few days of the week, then you need to use the available data. If no data is available for a country, the value should be `None`.
+**Note:** Your answer should be a **dict** mapping each country name to the sum of the daily vaccinations done in that country. If on some days no vaccinations were reported, you need to skip that data. If no data is available for a country, the value should be `None`. 
+
+**Hint:** Your code will be somewhat like that in `daily_vaccinations_on` but the conditions you are checking have different actions.  
+- If the country is not in the dictionary, add it as a key with the value of None. 
+- If `daily_vax` is the empty string, skip this data. Otherwise, convert it to an int. 
+- If the current entry in the dictionary is None, store this int in the dictionary.  Otherwise, add this int to the value previously in the dictionary. 
 
 
 ### #Q7: Which country is estimated to have completed the most number of vaccinations across the dates mentioned in the dataset?
@@ -203,21 +217,24 @@ For other countries such as Bermuda, the data is only available on 10/15/2021. I
 Note that this function is a **requirement**, and you will **lose points** if you do not implement this function.
 
 ```python
-def fully_vaccinated_by(date):
-    '''return a dictionary mapping each country to the most recent number of people fully vaccinated by the given date; if no data is available, the value is None.'''
+def fully_vaccinated_by(given_date):
+    '''return a dictionary mapping each country to the most recent number of people 
+    fully vaccinated by the given date; if no data is available, the value is None.'''
     fully_vax_dict = ???
     for i in range(???):
-        country_i = ???
-        date_i = ???
-        fully_vax_i = ???
-        if country_i not in fully_vax_dict:
+        country = ???
+        date = ???
+        fully_vax = ???
+        if country not in fully_vax_dict:
             fully_vax_dict[???] = ???
-        if ???:
-            fully_vax_dict[country_i] = fully_vax_i
+	if fully_vax is the empty string:
+	    ???
+        if date is on or before given_date
+            fully_vax_dict[country] = fully_vax
     return ???
 ```
 
-**Hint:** In order to check if any particular date is before or after another date, recall that you can use `get_number_of_days` from p5. `get_number_of_days(date1, date2)` will be negative, if `date1` is after `date2`. Of course, you may do this through other means if you wish. (You are allowed to import the `datetime` module).
+**Hint:** In order to check if any particular date is before another date, recall that you can use `get_number_of_days` from p5. `get_number_of_days(date1, date2)` will be positive, if `date1` is before `date2`. Of course, you may do this through other means if you wish. (You are allowed to import the `datetime` module).
 
 **Extra Hint:** Notice that the dates are arranged in chronological order for each country in the dataset.
 
@@ -236,13 +253,14 @@ def fully_vaccinated_by(date):
 
 ----
 
-### Data Structure suggestion:
+### Dictionary of Dictionaries:
 
-Just like with `people_fully_vaccinated`, we can interpolate the other cumulative columns of the dataset, such as `total_vaccinations` and `people_vaccinated`. In fact, if you want, you may create a function `cumulative_interpolation(column_name, date)` which can interpolate for any of these columns.
+One big issue with the data we have gathered so far is how poorly it is orgainzed. For example, to get the real value of the `people_fully_vaccinated` column on a certain date, we are forced to call `fully_vaccinated_by`, and extract the data from there. In data science, a lot of questions can be answered with short lines of code, if we first organize our data in an easily accessible data structure. We will now try to do exactly that. 
 
-However, we also have other issues to deal with. One big issue with the data we have gathered so far is how poorly it is orgainzed. For example, to query the real value of the `people_fully_vaccinated` column on a certain date, we are forced to call `fully_vaccinated_by`, and extract the data from there. In data science, a lot of questions can be answered with short lines of code, if we first organize our data in an easily accessible data structure. We will now try to do exactly that. Note that this data structure is a **requirement**, and you will **lose points** if you do not implement this data structure.
+We will create a **dictionary of dictionaries** called `vaccination_stats` to store our data. Note that this data structure is a **requirement**, and you will **lose points** if you do not implement this data structure. The keys of this dictionary will be the various countries in the dataset (which you found in Q2), and the value corresponding to each key will be another dictionary. As for the inner dictionary, the keys will be the different dates (which you found in Q1), and the value will be a dictionary representing all the statistics of that country on that date. 
 
-We will create a **dictionary of dictionaries** called `vaccination_stats` to store our data. The keys of this dictionary will be the various countries in the dataset (which you found in Q2), and the value corresponding to each key will be another dictionary. As for this inner dictionary, the keys will be the different dates (which you found in Q1), and the value will be a dictionary representing all the statistics of that country from that date. These statistics should be found by interpolation (you may use `cumulative_interpolation` if you have implemented it), and it should look like this:
+
+To reiterate, `vaccination_stats` should be a dictionary where the keys are country names. The values should be dictionaries with the keys being the different dates. The values of these keys should be dictionaries like the one below.
 
 ```python
 >>> vaccination_stats['Albania']['10/12/2021']
@@ -256,29 +274,30 @@ We will create a **dictionary of dictionaries** called `vaccination_stats` to st
 
 ```
 
-To reiterate, `vaccination_stats` should be a dictionary where the keys are country names. The values should be dictionaries with the keys being the different dates. The values of these keys should be dictionaries like the one above.
-
 You can start with this code snippet if you want:
 
 ```python
 vaccination_stats = {}
 
-populations = ??? # a dict mapping each country to population of country
-for date in dates:
+for date in dates: 
     daily_vax_dict = ??? # a dict mapping each country to number of daily_vaccinations on date
-    total_vax_dict = ??? # a dict mapping each country to (interpolated) number of total_vaccinations on date
-    people_vax_dict = ??? # a dict mapping each country to (interpolated) number of people_vaccinated on date
-    fully_vax_dict = ??? # a dict mapping each country to (interpolated) number of people_fully_vaccinated on date
+    total_vax_dict = ??? # a dict mapping each country to the most recent number of total_vaccinations on date
+    people_vax_dict = ??? # a dict mapping each country to the most recent number of people_vaccinated on date
+    fully_vax_dict = ??? # a dict mapping each country to most recent number of people_fully_vaccinated on date
     for country in countries:
         if country not in vaccination_stats:
             vaccination_stats[country] = {}
         vaccination_stats[country][date] = {}
         vaccination_stats[country][date]['country'] = country
         vaccination_stats[country][date]['date'] = date
-        # TODO: fill in the rest of the dict
+        # TODO: fill in the rest of the dict to match the example above
 ```
 
 The lists `dates` and `countries` can be found from your answers to Q1 and Q2 respectively.
+
+The vaccination data, such as `people_vax_dict`, can be found by using the same logic you used in the function `fully_vaccinated_by.` You may want to consider generalizing that algorithm into its own function, which might be called  `most_recent_total(column_name, date)`. Writing this function is optional but will reduce duplicated code.
+
+The population for each country can be found from your answer to Q3.
 
 ---
 
@@ -320,6 +339,8 @@ Now let us do something more interesting with our data!
 
 
 ### #Q18: Which country has the lowest estimated ratio of people who are partly vaccinated to people who are fully vaccinated, as of '10/16/2021'?
+
+**Note:** If there are any ties, your answer should be the country whose name appears first in the alphabetical order.
 
 
 ### #Q19: Which country is estimated to have administered the most vaccines per capita, as of '10/14/2021'?
