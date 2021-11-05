@@ -3,6 +3,8 @@
 ## Clarifications/Corrections
 
  * **(10/27/2021 - 2:00 pm)**: Q12 rephrased
+ * **(10/28/2021 - 1:15 pm)**: Reminder that extra import statements are not allowed
+ * **(10/31/2021 - 4:10 pm)**: Clarification on Q19 requirement
 
 **Find any issues?** Report to us:  
 - Dyah Adila [adila@wisc.edu](mailto:adila@wisc.edu)
@@ -25,7 +27,7 @@ Remember that coding style matters! **We may deduct points for bad coding style.
 - Avoid calling slow functions multiple times within a loop.
 - Avoid calling functions that iterate over the entire dataset within a loop; instead, call the function before the loop and store the result in a variable.
 
-**Warning:** Please do not use the method `csv.DictReader` for p8. Although the required output can be obtained using this method, one of the learning outcomes of this project is to demonstrate your ability to build dictionaries with your own code.
+**Warning:** Do not use the method `csv.DictReader` for p8. Although the required output can be obtained using this method, one of the learning outcomes of this project is to demonstrate your ability to build dictionaries with your own code.  Also, remember that additoinal import statements beyond those that are stated in the directions are not allowed. For this project, we allow you to use `import csv` and `import copy`.
 
 ## Introduction
 
@@ -447,7 +449,7 @@ For now, let us see what we can do with `genre_search_bar`.
 ### #Q19: List all the genres of movies that Christopher Nolan has ever acted/directed in.
 
 **Hint**: Notice that this question is nearly identical to q15. However, using `genre_search_bar` 
-together with `search_bar`, you can solve this question much quicker now. We expect that you will answer this question **without any explicit control strucures (loops, if statements)**
+together with `search_bar`, you can solve this question much quicker now. We require that you answer this question **without any explicit control strucures (loops, if statements)** or you will lose points.
 
 ### #Q20: Which movie genre does the actress Kristen Stewart play the most?
 
