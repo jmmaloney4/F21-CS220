@@ -762,7 +762,7 @@ def rerun_notebook(orig_notebook):
 
     # parse notebook
     with open(new_notebook) as f:
-        nb = json.load(f, encoding='utf-8')
+        nb = json.load(f) # , encoding='utf-8')
     return nb
 
 
