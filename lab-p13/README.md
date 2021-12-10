@@ -6,6 +6,12 @@ In this lab, you'll learn three things:
 2. what numpy is, and its relationship to pandas
 3. how to compute a fit line
 
+<h2> Corrections/Clarifications
+    **(12/8/2021 - 12:30pm)**: typos fixed in SQL practice section
+</h2> 
+
+* **(12/07/2021 - 11:25am)**: Fixing typo in SQL question --- 7 popular pizza toppings (instead of majors) 
+
 ## Drawing a Fit
 
 Scatter plots are a good way to visualize correlations.  We'll
@@ -329,7 +335,7 @@ Recall that, you can create groups based on unique values in a column, using `gr
 ```python
 pd.read_sql(
 """
-select ???(*) as student_count
+select ???, ???(*) as student_count
 from fall_2021
 group by ???
 """, conn)
@@ -374,7 +380,7 @@ LIMIT ???
 """, conn)
 ```
 
-### What are the top 7 popular majors?
+### What are the top 7 popular pizza toppings?
 Recall that `order by` SQL clause enables you to perform sorting. The default ordering is ascending (`ASC`). You can specify descending ordering by mentioning `DESC` after the column name (based on whose ordering you want to sort your rows). The `as` keyword enables you to rename the newly computed column, either using aggregation or by using computation. Complete the following code:
 
 ```python
@@ -399,7 +405,7 @@ WHERE ??? = "Engineering" and ??? = "pepperoni"
 ```
 
 ### What is the minimum age for each lecture?
-The lecture and minimum age should be displayed in ascending order of minimum age. If the minimum ages are tied, then the lectures should be ordered in alphabetical order (ascending). You can achieve this, by specifying two column information for `group by` clause. Complete the following code:
+The lecture and minimum age should be displayed in ascending order of minimum age. If the minimum ages are tied, then the lectures should be ordered in alphabetical order (ascending). You can achieve this, by specifying two column information for `order by` clause. Complete the following code:
 
 ```python
 pd.read_sql("""
