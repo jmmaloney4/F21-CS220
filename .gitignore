@@ -4,3 +4,4 @@
 **/__pycache__
 **/*-test.ipynb
 p12/my_*.json
+p13/*.db
